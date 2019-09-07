@@ -52,7 +52,7 @@ public class CustomersController : ControllerBase
 	}
  
 }
-
+ 
 Authorize attribute on top of the GET method restricts the access to only authorized users. Only users who are logged-in can access the list of customers. Therefore, this time if you make a request to http://localhost:5000/api/customers from the browser’s address bar, instead of getting a list of customers you are going to get a 401 Not Authorized response.
 
 
