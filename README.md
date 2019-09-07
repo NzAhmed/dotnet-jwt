@@ -100,10 +100,11 @@ Here comes the interesting part.
 
 The first two steps are the standard steps that you don’t need to worry about. The third step is the one that we are interested in. In the third step we are creating the JwtSecurityToken object with some important parameters:
 
-    Issuer: The first parameter is a simple string representing the name of the web server that issues the token
-    Audience: The second parameter is a string value representing valid recipients
-    Claims: The third argument is a list of user roles, for example, the user can be an admin, manager or author (we are going to add roles in the next post)
-    Expires: The fifth argument is DateTime object that represents the date and time after which the token expires
+	Issuer: The first parameter is a simple string representing the name of the web server that issues the token
+	Audience: The second parameter is a string value representing valid recipients
+	Claims: The third argument is a list of user roles, for example, the user can be an admin, manager or author (we are going to add roles in the next post)
+	Expires: The fifth argument is DateTime object that represents the date and time after which the token expires
+
 
 Finally, we create a string representation of JWT by calling the WriteToken method on JwtSecurityTokenHandler. Finally, we are returning JWT in a response. As a response, we have created an anonymous object that contains only the Token property.
 
