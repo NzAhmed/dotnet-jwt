@@ -7,24 +7,24 @@ At the client side, we store the JWT in browser’s local storage to remember th
 
 Configuring JWT Authentication
 ------------------------------
-public void ConfigureServices(IServiceCollection services)
-{
-    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
- 
-            ValidIssuer = "http://localhost:5000",
-            ValidAudience = "http://localhost:5000",
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
-        };
-    });
-}
+	public void ConfigureServices(IServiceCollection services)
+	{
+	    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+	    .AddJwtBearer(options =>
+	    {
+		options.TokenValidationParameters = new TokenValidationParameters
+		{
+		    ValidateIssuer = true,
+		    ValidateAudience = true,
+		    ValidateLifetime = true,
+		    ValidateIssuerSigningKey = true,
+
+		    ValidIssuer = "http://localhost:5000",
+		    ValidAudience = "http://localhost:5000",
+		    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
+		};
+	    });
+	}
 
 -------------
 Add the app.UseAuthentication() in the Configure method:
