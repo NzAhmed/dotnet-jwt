@@ -29,29 +29,29 @@ Configuring JWT Authentication
 -------------
 Add the app.UseAuthentication() in the Configure method:
 
- public void Configure(IApplicationBuilder app, IHostingEnvironment env)
- {
-    // ...
-    app.UseAuthentication();
-    // ...
-}
+	 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+	 {
+	    // ...
+	    app.UseAuthentication();
+	    // ...
+	}
 
 And that’s all we need to configure the JWT authentication in ASP.NET Core.
 
 Securing API Endpoints
 ----------------------
-[Route("api/[controller]")]
-[ApiController]
-public class CustomersController : ControllerBase
-{
-	// GET api/values
-	[HttpGet,Authorize]
-	public IEnumerable<string> Get()
+	[Route("api/[controller]")]
+	[ApiController]
+	public class CustomersController : ControllerBase
 	{
-		return new string[] { "John Doe", "Jane Doe" };
+		// GET api/values
+		[HttpGet,Authorize]
+		public IEnumerable<string> Get()
+		{
+			return new string[] { "John Doe", "Jane Doe" };
+		}
+
 	}
- 
-}
  
 Authorize attribute on top of the GET method restricts the access to only authorized users. Only users who are logged-in can access the list of customers. Therefore, this time if you make a request to http://localhost:5000/api/customers from the browser’s address bar, instead of getting a list of customers you are going to get a 401 Not Authorized response.
 
@@ -59,41 +59,41 @@ Authorize attribute on top of the GET method restricts the access to only author
 Adding Login Endpoint
 ---------------------
 
-[Route("api/auth")]
-[ApiController]
-public class AuthController : ControllerBase
-{
-    // GET api/values
-    [HttpPost, Route("login")]
-    public IActionResult Login([FromBody]LoginModel user)
-    {
-        if (user == null)
-        {
-            return BadRequest("Invalid client request");
-        }
- 
-        if (user.UserName == "johndoe" && user.Password == "def@123")
-        {
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
-            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
- 
-            var tokeOptions = new JwtSecurityToken(
-                issuer: "http://localhost:5000",
-                audience: "http://localhost:5000",
-                claims: new List<Claim>(),
-                expires: DateTime.Now.AddMinutes(5),
-                signingCredentials: signinCredentials
-            );
- 
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-            return Ok(new { Token = tokenString });
-        }
-        else
-        {
-            return Unauthorized();
-        }
-    }
-}
+	[Route("api/auth")]
+	[ApiController]
+	public class AuthController : ControllerBase
+	{
+	    // GET api/values
+	    [HttpPost, Route("login")]
+	    public IActionResult Login([FromBody]LoginModel user)
+	    {
+		if (user == null)
+		{
+		    return BadRequest("Invalid client request");
+		}
+
+		if (user.UserName == "johndoe" && user.Password == "def@123")
+		{
+		    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
+		    var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+
+		    var tokeOptions = new JwtSecurityToken(
+			issuer: "http://localhost:5000",
+			audience: "http://localhost:5000",
+			claims: new List<Claim>(),
+			expires: DateTime.Now.AddMinutes(5),
+			signingCredentials: signinCredentials
+		    );
+
+		    var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+		    return Ok(new { Token = tokenString });
+		}
+		else
+		{
+		    return Unauthorized();
+		}
+	    }
+	}
 
 
 Here comes the interesting part.
